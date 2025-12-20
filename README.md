@@ -7,6 +7,10 @@
 | Кузнецов Артур Геннадьевич | 368392 | K3440  | @i-am-dak0ta |
 | Скирляк Ярослав Юрьевич    | 368802 | K3439  | @ryzhy1      |
 
+## Результат
+
+<img src="https://github.com/i-am-dak0ta/ITMO-MD-2025/blob/main/res/app.gif" width="35%" height="35%"/>
+
 ## Технологический стек
 
 ### Основные технологии
@@ -24,6 +28,7 @@
     - Material Design 3
     - Navigation Compose
     - Activity Compose
+    - Coil
 
 - **Архитектура & DI**:
     - Dagger
