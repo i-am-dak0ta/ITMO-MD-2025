@@ -16,16 +16,16 @@ internal class SettingsUiStateMapper @Inject constructor() : (SettingsState) -> 
 
     private fun mapContentState(appTheme: AppTheme): SettingsUiState.Content {
         val themeOptions = listOf(
-            ThemeOption(AppTheme.LIGHT, "Светлая", appTheme == AppTheme.LIGHT),
-            ThemeOption(AppTheme.DARK, "Тёмная", appTheme == AppTheme.DARK),
-            ThemeOption(AppTheme.SYSTEM_DEFAULT, "Системная", appTheme == AppTheme.SYSTEM_DEFAULT),
+            ThemeOption(AppTheme.LIGHT, "Light", appTheme == AppTheme.LIGHT),
+            ThemeOption(AppTheme.DARK, "Dark", appTheme == AppTheme.DARK),
+            ThemeOption(AppTheme.SYSTEM_DEFAULT, "System default", appTheme == AppTheme.SYSTEM_DEFAULT),
         )
         return SettingsUiState.Content(themeOptions)
     }
 
     private fun mapErrorState(): SettingsUiState.Error = SettingsUiState.Error(
-        title = "Что-то пошло не так",
-        description = "Не удалось загрузить данные. Попробуйте снова позже.",
-        retryButtonText = "Попробовать снова",
+        title = "Something went wrong",
+        description = "The data could not be uploaded. Try again later.",
+        retryButtonText = "Try again",
     )
 }

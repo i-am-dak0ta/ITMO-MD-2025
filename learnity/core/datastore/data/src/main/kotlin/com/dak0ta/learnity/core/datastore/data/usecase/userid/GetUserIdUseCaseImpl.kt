@@ -9,5 +9,5 @@ internal class GetUserIdUseCaseImpl @Inject constructor(
     private val repository: UserPreferencesRepository,
 ) : GetUserIdUseCase {
 
-    override suspend fun invoke(): String? = repository.userIdFlow.firstOrNull()
+    override suspend fun invoke(): Int? = repository.userIdFlow.firstOrNull()
 }

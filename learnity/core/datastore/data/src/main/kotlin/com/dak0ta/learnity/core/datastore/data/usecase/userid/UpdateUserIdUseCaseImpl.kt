@@ -8,7 +8,7 @@ internal class UpdateUserIdUseCaseImpl @Inject constructor(
     private val repository: UserPreferencesRepository,
 ) : UpdateUserIdUseCase {
 
-    override suspend fun invoke(id: String?) {
+    override suspend fun invoke(id: Int?) {
         repository.updateUserId(id)
     }
 }

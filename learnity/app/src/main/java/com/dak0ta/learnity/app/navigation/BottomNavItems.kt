@@ -11,17 +11,17 @@ import com.dak0ta.learnity.feature.settings.domain.SettingsDirection
 val bottomNavItems = listOf(
     BottomNavItem(
         directionClass = HomeDirection::class,
-        label = "Главная",
+        label = "Home",
         icon = Icons.Default.Home,
     ),
     BottomNavItem(
         directionClass = ProfileDirection::class,
-        label = "Профиль",
+        label = "Profile",
         icon = Icons.Default.Person,
     ),
     BottomNavItem(
         directionClass = SettingsDirection::class,
-        label = "Настройки",
+        label = "Settings",
         icon = Icons.Default.Settings,
     ),
 )

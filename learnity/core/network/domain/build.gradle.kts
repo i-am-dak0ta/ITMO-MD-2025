@@ -1,25 +1,7 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
-    id("java-library")
-    alias(libs.plugins.jetbrains.kotlin.jvm)
-    id("base-convention")
-}
-
-val javaVersion: String by project
-
-java {
-    sourceCompatibility = JavaVersion.toVersion(javaVersion)
-    targetCompatibility = JavaVersion.toVersion(javaVersion)
-}
-
-kotlin {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
-    }
+    id("jvm-convention")
 }
 
 dependencies {
-    implementation(projects.core.coroutine)
-    implementation(projects.core.domain)
+    api(projects.core.domain)
 }

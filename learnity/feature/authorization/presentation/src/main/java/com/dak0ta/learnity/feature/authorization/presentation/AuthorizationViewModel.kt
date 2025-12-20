@@ -3,7 +3,7 @@ package com.dak0ta.learnity.feature.authorization.presentation
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.dak0ta.learnity.core.coroutine.runSuspendCatching
-import com.dak0ta.learnity.core.datastore.domain.usecase.accesstoken.GetAccessTokenUseCase
+import com.dak0ta.learnity.core.datastore.domain.usecase.userid.GetUserIdUseCase
 import com.dak0ta.learnity.core.mvvm.BaseViewModel
 import com.dak0ta.learnity.feature.authorization.domain.usecase.LoginUseCase
 import com.dak0ta.learnity.feature.authorization.presentation.ui.AuthorizationUiState
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 internal class AuthorizationViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val getAccessTokenUseCase: GetAccessTokenUseCase,
+    private val getUserIdUseCase: GetUserIdUseCase,
     uiStateMapper: AuthorizationUiStateMapper,
 ) : BaseViewModel() {
 
@@ -37,18 +37,19 @@ internal class AuthorizationViewModel @Inject constructor(
 
     private fun checkAuth() {
         viewModelScope.launch {
-            val token = getAccessTokenUseCase()
-            if (!token.isNullOrBlank()) {
+            val userId = getUserIdUseCase()
+
+            if (userId != null && userId != 0) {
                 _action.send(AuthorizationAction.NavigateTo(ProfileDirection::class))
             } else {
                 runSuspendCatching {
-                    loginUseCase(input = "tutor@example.com", password = "qwerty123")
+                    loginUseCase(username = "emilys", password = "emilyspass")
                 }
                     .onSuccess {
                         dataState.value = AuthorizationState.Content
                         _action.send(AuthorizationAction.NavigateTo(ProfileDirection::class))
                     }
-                    .onFailure { e ->
+                    .onFailure { _ ->
                         Log.e(TAG, "login has failed")
                         dataState.value = AuthorizationState.Error
                     }

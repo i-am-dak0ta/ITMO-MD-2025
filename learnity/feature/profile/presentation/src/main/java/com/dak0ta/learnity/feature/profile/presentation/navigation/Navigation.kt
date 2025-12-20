@@ -4,7 +4,8 @@ import androidx.navigation.NavGraphBuilder
 import com.dak0ta.learnity.core.navigation.compose.composableDirection
 import com.dak0ta.learnity.core.navigation.compose.navigationDirection
 import com.dak0ta.learnity.feature.profile.domain.navigation.ProfileDirection
-import com.dak0ta.learnity.feature.profile.ui.ProfileScreen
+import com.dak0ta.learnity.feature.profile.ui.edit.ProfileEditScreen
+import com.dak0ta.learnity.feature.profile.ui.profile.ProfileScreen
 
 fun NavGraphBuilder.navigationProfile() {
     navigationDirection<ProfileDirection>(
@@ -12,6 +13,9 @@ fun NavGraphBuilder.navigationProfile() {
     ) {
         composableDirection<ProfileRootDirection> {
             ProfileScreen()
+        }
+        composableDirection<ProfileEditDirection> {
+            ProfileEditScreen()
         }
     }
 }

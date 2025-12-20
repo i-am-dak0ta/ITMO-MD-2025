@@ -8,7 +8,7 @@ internal class LoginUseCaseImpl @Inject constructor(
     private val repository: AuthorizationRepository,
 ) : LoginUseCase {
 
-    override suspend fun invoke(input: String, password: String) {
-        repository.login(input, password)
+    override suspend fun invoke(username: String, password: String) {
+        repository.login(username, password)
     }
 }

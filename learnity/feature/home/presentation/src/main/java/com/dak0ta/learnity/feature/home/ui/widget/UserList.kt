@@ -28,7 +28,7 @@ internal fun UserList(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
         ) {
-            items(state.users, key = { it.id }) { user ->
+            items(state.quotes, key = { it.id }) { user ->
                 UserCard(
                     user = user,
                     modifier = Modifier.fillMaxWidth(),

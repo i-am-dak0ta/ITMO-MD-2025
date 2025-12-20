@@ -14,8 +14,8 @@ internal class AuthorizationUiStateMapper @Inject constructor() : (Authorization
     }
 
     private fun mapErrorState(): AuthorizationUiState.Error = AuthorizationUiState.Error(
-        title = "Что-то пошло не так",
-        description = "Не удалось загрузить данные. Попробуйте снова позже.",
-        retryButtonText = "Попробовать снова",
+        title = "Something went wrong",
+        description = "The data could not be uploaded. Try again later.",
+        retryButtonText = "Try again",
     )
 }

@@ -1,22 +1,7 @@
 plugins {
-    id("java-library")
-    alias(libs.plugins.jetbrains.kotlin.jvm)
-    alias(libs.plugins.kotlin.serialization)
-    id("base-convention")
-}
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
-kotlin {
-    compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
-    }
+    id("jvm-convention")
 }
 
 dependencies {
-    implementation(libs.kotlinx.serialization.json)
-    implementation(projects.core.coroutine)
-    implementation(projects.core.navigation)
-    implementation(projects.core.domain)
+    api(projects.core.navigation)
 }

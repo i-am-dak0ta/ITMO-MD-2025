@@ -1,13 +1,13 @@
 package com.dak0ta.learnity.feature.profile.data.di
 
-import com.dak0ta.learnity.feature.profile.data.repository.FakeUserRepositoryImpl
 import com.dak0ta.learnity.feature.profile.data.repository.UserRepository
+import com.dak0ta.learnity.feature.profile.data.repository.UserRepositoryImpl
 import com.dak0ta.learnity.feature.profile.data.usecase.GetUserMeUseCaseImpl
 import com.dak0ta.learnity.feature.profile.data.usecase.ObserveUserMeUseCaseImpl
-import com.dak0ta.learnity.feature.profile.data.usecase.RefreshUserMeUseCaseImpl
+import com.dak0ta.learnity.feature.profile.data.usecase.UpdateUserMeUseCaseImpl
 import com.dak0ta.learnity.feature.profile.domain.usecase.GetUserMeUseCase
 import com.dak0ta.learnity.feature.profile.domain.usecase.ObserveUserMeUseCase
-import com.dak0ta.learnity.feature.profile.domain.usecase.RefreshUserMeUseCase
+import com.dak0ta.learnity.feature.profile.domain.usecase.UpdateUserMeUseCase
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
@@ -18,7 +18,7 @@ abstract class ProfileDataModule {
     @Binds
     @Singleton
     internal abstract fun bindUserRepository(
-        impl: FakeUserRepositoryImpl,
+        impl: UserRepositoryImpl,
     ): UserRepository
 
     @Binds
@@ -32,7 +32,7 @@ abstract class ProfileDataModule {
     ): ObserveUserMeUseCase
 
     @Binds
-    internal abstract fun bindRefreshUserMeUseCase(
-        impl: RefreshUserMeUseCaseImpl,
-    ): RefreshUserMeUseCase
+    internal abstract fun bindUpdateUserMeUseCase(
+        impl: UpdateUserMeUseCaseImpl,
+    ): UpdateUserMeUseCase
 }

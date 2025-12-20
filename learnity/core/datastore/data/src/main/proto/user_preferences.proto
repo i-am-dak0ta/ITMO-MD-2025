@@ -4,17 +4,8 @@ option java_package = "com.dak0ta.learnity.core.datastore.proto";
 option java_multiple_files = true;
 
 message UserPreferences {
-    string user_id = 1;
-    UserRoleProto user_role = 2;
-    AppThemeProto app_theme = 3;
-    string access_token = 4;
-    string refresh_token = 5;
-}
-
-enum UserRoleProto {
-    STUDENT = 0;
-    TUTOR = 1;
-    ADMIN = 2;
+    int32 user_id = 1;
+    AppThemeProto app_theme = 2;
 }
 
 enum AppThemeProto {

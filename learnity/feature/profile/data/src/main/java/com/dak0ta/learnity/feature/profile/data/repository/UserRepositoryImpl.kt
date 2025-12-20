@@ -2,11 +2,11 @@ package com.dak0ta.learnity.feature.profile.data.repository
 
 import com.dak0ta.learnity.core.coroutine.CoroutineDispatchers
 import com.dak0ta.learnity.core.database.domain.cache.CacheManager
-import com.dak0ta.learnity.core.database.domain.repository.UserWithRoleLocalRepository
+import com.dak0ta.learnity.core.database.domain.repository.UserLocalRepository
 import com.dak0ta.learnity.core.datastore.domain.usecase.userid.GetUserIdUseCase
-import com.dak0ta.learnity.core.domain.user.UserWithRole
+import com.dak0ta.learnity.core.domain.User
 import com.dak0ta.learnity.core.network.domain.model.ApiResult
-import com.dak0ta.learnity.core.network.domain.repository.UserWithRoleRemoteRepository
+import com.dak0ta.learnity.core.network.domain.repository.UserRemoteRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.withContext
@@ -15,14 +15,14 @@ import javax.inject.Singleton
 
 @Singleton
 internal class UserRepositoryImpl @Inject constructor(
-    private val local: UserWithRoleLocalRepository,
-    private val remote: UserWithRoleRemoteRepository,
+    private val local: UserLocalRepository,
+    private val remote: UserRemoteRepository,
     private val cacheManager: CacheManager,
     private val getUserIdUseCase: GetUserIdUseCase,
     private val dispatchers: CoroutineDispatchers,
 ) : UserRepository {
 
-    override suspend fun getUserMe(forceUpdate: Boolean): UserWithRole = withContext(dispatchers.io) {
+    override suspend fun getUserMe(forceUpdate: Boolean): User = withContext(dispatchers.io) {
         val userId = getUserIdUseCase() ?: error("User ID not found in datastore")
 
         val isCacheActual = cacheManager.isCacheActual(CACHE_KEY_USER_ME)
@@ -33,12 +33,16 @@ internal class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun observeUserMeCache(userId: String): Flow<UserWithRole?> {
-        return local.observeUser(userId).distinctUntilChanged()
+    override fun observeUserMeCache(id: Int): Flow<User?> {
+        return local.observeUser(id).distinctUntilChanged()
     }
 
-    private suspend fun fetchAndCacheUser(userId: String): UserWithRole {
-        return when (val result = remote.getUserById(userId)) {
+    override suspend fun updateUser(user: User) {
+        local.upsertUser(user)
+    }
+
+    private suspend fun fetchAndCacheUser(id: Int): User {
+        return when (val result = remote.getUserById(id)) {
             is ApiResult.Success -> {
                 val user = result.data
                 local.upsertUser(user)
@@ -47,7 +51,7 @@ internal class UserRepositoryImpl @Inject constructor(
             }
 
             is ApiResult.Failure -> {
-                local.getUser(userId) ?: error("Failed to load user and no cache available")
+                local.getUser(id) ?: error("Failed to load user and no cache available")
             }
         }
     }

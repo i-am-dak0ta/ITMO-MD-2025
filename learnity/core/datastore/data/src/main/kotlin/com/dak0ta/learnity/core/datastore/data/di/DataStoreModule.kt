@@ -6,8 +6,6 @@ import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.Serializer
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.dataStoreFile
-import com.dak0ta.learnity.core.datastore.data.crypto.CryptoManager
-import com.dak0ta.learnity.core.datastore.data.crypto.CryptoManagerImpl
 import com.dak0ta.learnity.core.datastore.data.repository.UserPreferencesRepository
 import com.dak0ta.learnity.core.datastore.data.repository.UserPreferencesRepositoryImpl
 import com.dak0ta.learnity.core.datastore.data.serializer.UserPreferencesSerializer
@@ -17,12 +15,8 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module(includes = [DataStoreUserUseCaseModule::class, DataStoreTokensUseCaseModule::class])
+@Module(includes = [DataStoreUseCaseModule::class])
 abstract class DataStoreModule {
-
-    @Binds
-    @Singleton
-    internal abstract fun bindCryptoManager(impl: CryptoManagerImpl): CryptoManager
 
     @Binds
     @Singleton

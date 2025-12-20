@@ -5,7 +5,7 @@ internal sealed interface HomeUiState {
     object Loading : HomeUiState
 
     data class Content(
-        val users: List<UserInfo>,
+        val quotes: List<QuoteInfo>,
         val isRefreshing: Boolean = false,
     ) : HomeUiState
 

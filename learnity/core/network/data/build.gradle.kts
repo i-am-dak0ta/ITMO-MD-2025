@@ -1,33 +1,11 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    id("android-library-convention")
     id("kotlin-kapt")
     alias(libs.plugins.ksp)
-    id("base-convention")
 }
-
-val javaVersion: String by project
 
 android {
     namespace = "com.dak0ta.learnity.core.network.data"
-    compileSdk = libs.versions.compileSdk.get().toInt()
-
-    defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.toVersion(javaVersion)
-        targetCompatibility = JavaVersion.toVersion(javaVersion)
-    }
-
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
-        }
-    }
 
     buildFeatures {
         buildConfig = true
@@ -35,20 +13,20 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.domain)
-    implementation(projects.core.network.domain)
-    implementation(projects.core.datastore.domain)
+    api(projects.core.datastore.domain)
+    api(projects.core.network.domain)
+
+    api(libs.logging.interceptor)
+    api(libs.moshi)
+    api(libs.retrofit)
+
     implementation(projects.core.coroutine)
     implementation(projects.core.di)
-    kapt(libs.dagger.compiler)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.moshi)
-    implementation(libs.okhttp)
-    implementation(libs.logging.interceptor)
-    implementation(libs.moshi)
+
     implementation(libs.moshi.kotlin)
+    implementation(libs.okhttp)
+    implementation(libs.retrofit.converter.moshi)
+
+    kapt(libs.dagger.compiler)
     ksp(libs.moshi.kotlin.codegen)
-    implementation(libs.androidx.core.ktx)
-    testImplementation(libs.junit)
-    testImplementation(libs.okhttp.mockwebserver)
 }

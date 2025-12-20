@@ -5,13 +5,11 @@ import androidx.room.Room
 import com.dak0ta.learnity.core.coroutine.CoroutineDispatchers
 import com.dak0ta.learnity.core.database.data.cache.CacheManagerImpl
 import com.dak0ta.learnity.core.database.data.db.AppDatabase
-import com.dak0ta.learnity.core.database.data.repository.CourseLocalRepositoryImpl
-import com.dak0ta.learnity.core.database.data.repository.MessengerLocalRepositoryImpl
-import com.dak0ta.learnity.core.database.data.repository.UserWithRoleLocalRepositoryImpl
+import com.dak0ta.learnity.core.database.data.repository.QuotesLocalRepositoryImpl
+import com.dak0ta.learnity.core.database.data.repository.UserLocalRepositoryImpl
 import com.dak0ta.learnity.core.database.domain.cache.CacheManager
-import com.dak0ta.learnity.core.database.domain.repository.CourseLocalRepository
-import com.dak0ta.learnity.core.database.domain.repository.MessengerLocalRepository
-import com.dak0ta.learnity.core.database.domain.repository.UserWithRoleLocalRepository
+import com.dak0ta.learnity.core.database.domain.repository.QuotesLocalRepository
+import com.dak0ta.learnity.core.database.domain.repository.UserLocalRepository
 import dagger.Module
 import dagger.Provides
 import java.util.concurrent.Executors
@@ -46,22 +44,12 @@ object DatabaseModule {
             .build()
 
     @Provides
-    fun provideUserWithRoleLocalRepository(
-        db: AppDatabase,
-    ): UserWithRoleLocalRepository = UserWithRoleLocalRepositoryImpl(
-        db = db,
-        userDao = db.userDao(),
-        studentDao = db.studentDao(),
-        tutorDao = db.tutorDao(),
-    )
+    fun provideUserLocalRepository(db: AppDatabase): UserLocalRepository =
+        UserLocalRepositoryImpl(db.userDao())
 
     @Provides
-    fun provideMessengerLocalRepository(db: AppDatabase): MessengerLocalRepository =
-        MessengerLocalRepositoryImpl(db.messengerDao())
-
-    @Provides
-    fun provideCourseLocalRepository(db: AppDatabase): CourseLocalRepository =
-        CourseLocalRepositoryImpl(db.courseDao())
+    fun provideQuotesLocalRepository(db: AppDatabase): QuotesLocalRepository =
+        QuotesLocalRepositoryImpl(db.quotesDao())
 
     @Provides
     @Singleton

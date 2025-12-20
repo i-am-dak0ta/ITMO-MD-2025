@@ -11,12 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.dak0ta.learnity.feature.home.presentation.ui.RoleInfo
-import com.dak0ta.learnity.feature.home.presentation.ui.UserInfo
+import com.dak0ta.learnity.feature.home.presentation.ui.QuoteInfo
 
 @Composable
 internal fun UserCard(
-    user: UserInfo,
+    user: QuoteInfo,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -27,23 +26,9 @@ internal fun UserCard(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            Text(user.nickname)
-            Text(user.fullName)
-            Text(user.age)
-            Text(user.role)
+            Text(user.quote)
             HorizontalDivider(Modifier, DividerDefaults.Thickness, DividerDefaults.color)
-            when (val info = user.roleInfo) {
-                is RoleInfo.StudentInfo -> {
-                    Text(info.grade)
-                }
-
-                is RoleInfo.TutorInfo -> {
-                    Text(info.subjects)
-                    Text(info.rating)
-                }
-
-                RoleInfo.None -> {}
-            }
+            Text(user.author)
         }
     }
 }

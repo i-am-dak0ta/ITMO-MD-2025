@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.dak0ta.learnity.core.coroutine.runSuspendCatching
 import com.dak0ta.learnity.core.mvvm.BaseViewModel
-import com.dak0ta.learnity.feature.home.domain.usecase.GetUsersUseCase
-import com.dak0ta.learnity.feature.home.domain.usecase.ObserveUsersUseCase
-import com.dak0ta.learnity.feature.home.domain.usecase.RefreshUsersUseCase
+import com.dak0ta.learnity.feature.home.domain.usecase.GetQuotesUseCase
+import com.dak0ta.learnity.feature.home.domain.usecase.ObserveQuotesUseCase
+import com.dak0ta.learnity.feature.home.domain.usecase.RefreshQuotesUseCase
 import com.dak0ta.learnity.feature.home.presentation.ui.HomeUiState
 import com.dak0ta.learnity.feature.home.presentation.ui.HomeUiStateMapper
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,9 +19,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class HomeViewModel @Inject constructor(
-    private val getUsersUseCase: GetUsersUseCase,
-    private val refreshUsersUseCase: RefreshUsersUseCase,
-    private val observeUsersUseCase: ObserveUsersUseCase,
+    private val getQuotesUseCase: GetQuotesUseCase,
+    private val refreshQuotesUseCase: RefreshQuotesUseCase,
+    private val observeQuotesUseCase: ObserveQuotesUseCase,
     uiStateMapper: HomeUiStateMapper,
 ) : BaseViewModel() {
 
@@ -36,10 +36,10 @@ internal class HomeViewModel @Inject constructor(
     private fun loadData() {
         viewModelScope.launch {
             runSuspendCatching {
-                getUsersUseCase()
+                getQuotesUseCase()
             }
-                .onSuccess { users ->
-                    dataState.value = HomeState.Content(users)
+                .onSuccess { quotes ->
+                    dataState.value = HomeState.Content(quotes)
                     observeUsers()
                 }
                 .onFailure {
@@ -51,11 +51,11 @@ internal class HomeViewModel @Inject constructor(
 
     private fun observeUsers() {
         viewModelScope.launch {
-            observeUsersUseCase().onEach { users ->
+            observeQuotesUseCase().onEach { users ->
                 if (users.isNotEmpty()) {
                     dataState.update { currentState ->
                         if (currentState !is HomeState.Content) return@update currentState
-                        currentState.copy(users = users)
+                        currentState.copy(quotes = users)
                     }
                 }
             }
@@ -69,10 +69,10 @@ internal class HomeViewModel @Inject constructor(
                 it.copy(isRefreshing = true)
             }
             runSuspendCatching {
-                refreshUsersUseCase()
+                refreshQuotesUseCase()
             }
                 .onFailure {
-                    Log.e(TAG, "refreshUsersUseCase has failed", it)
+                    Log.e(TAG, "refreshQuotesUseCase has failed", it)
                 }
             updateContentState { currentState ->
                 currentState.copy(isRefreshing = false)
