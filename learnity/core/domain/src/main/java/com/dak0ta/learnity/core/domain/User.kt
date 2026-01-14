@@ -8,4 +8,5 @@ data class User(
     val lastName: String,
     val gender: Gender,
     val image: String,
+    val isLocallyEdited: Boolean,
 )

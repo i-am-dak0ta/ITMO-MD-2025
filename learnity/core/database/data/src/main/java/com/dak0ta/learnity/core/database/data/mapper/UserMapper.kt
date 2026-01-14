@@ -11,6 +11,7 @@ internal fun UserEntity.toDomain() = User(
     lastName = lastName,
     gender = gender,
     image = image,
+    isLocallyEdited = isLocallyEdited,
 )
 
 internal fun User.toEntity() = UserEntity(
@@ -21,4 +22,5 @@ internal fun User.toEntity() = UserEntity(
     lastName = lastName,
     gender = gender,
     image = image,
+    isLocallyEdited = isLocallyEdited,
 )

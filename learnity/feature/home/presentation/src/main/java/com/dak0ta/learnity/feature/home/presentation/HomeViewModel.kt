@@ -7,6 +7,7 @@ import com.dak0ta.learnity.core.mvvm.BaseViewModel
 import com.dak0ta.learnity.feature.home.domain.usecase.GetQuotesUseCase
 import com.dak0ta.learnity.feature.home.domain.usecase.ObserveQuotesUseCase
 import com.dak0ta.learnity.feature.home.domain.usecase.RefreshQuotesUseCase
+import com.dak0ta.learnity.feature.home.domain.usecase.UpdateLikeQuoteUseCase
 import com.dak0ta.learnity.feature.home.presentation.ui.HomeUiState
 import com.dak0ta.learnity.feature.home.presentation.ui.HomeUiStateMapper
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +21,7 @@ import javax.inject.Inject
 
 internal class HomeViewModel @Inject constructor(
     private val getQuotesUseCase: GetQuotesUseCase,
+    private val updateLikeQuoteUseCase: UpdateLikeQuoteUseCase,
     private val refreshQuotesUseCase: RefreshQuotesUseCase,
     private val observeQuotesUseCase: ObserveQuotesUseCase,
     uiStateMapper: HomeUiStateMapper,
@@ -60,6 +62,17 @@ internal class HomeViewModel @Inject constructor(
                 }
             }
                 .launchIn(this)
+        }
+    }
+
+    internal fun onLikeClick(quoteId: Int, isLiked: Boolean) {
+        viewModelScope.launch {
+            runSuspendCatching {
+                updateLikeQuoteUseCase(quoteId, isLiked)
+            }
+                .onFailure {
+                    Log.e(TAG, "updateLikeQuoteUseCase has failed", it)
+                }
         }
     }
 

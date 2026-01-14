@@ -82,6 +82,7 @@ internal class ProfileEditViewModel @Inject constructor(
         val updatedUser = currentState.user.copy(
             firstName = currentState.user.firstName.trim(),
             lastName = currentState.user.lastName.trim(),
+            isLocallyEdited = true,
         )
 
         val errors = ValidationHelper.validateAllFields(updatedUser)

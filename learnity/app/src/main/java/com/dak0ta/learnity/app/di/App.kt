@@ -7,7 +7,7 @@ class App : Application() {
 
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory().create(
-            application = this
+            application = this,
         )
     }
 }

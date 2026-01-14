@@ -14,4 +14,5 @@ data class UserEntity(
     @ColumnInfo(name = "last_name") val lastName: String,
     val gender: Gender,
     val image: String,
+    val isLocallyEdited: Boolean,
 )

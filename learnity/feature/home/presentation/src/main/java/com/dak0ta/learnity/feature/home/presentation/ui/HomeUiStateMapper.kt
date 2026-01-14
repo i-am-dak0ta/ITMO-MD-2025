@@ -26,6 +26,7 @@ internal class HomeUiStateMapper @Inject constructor() : (HomeState) -> HomeUiSt
                 id = quote.id,
                 quote = quote.quote,
                 author = "© ${quote.author}",
+                isLiked = quote.isLiked,
             )
         }
     }

@@ -7,10 +7,12 @@ internal fun QuoteEntity.toDomain() = Quote(
     id = id,
     quote = quote,
     author = author,
+    isLiked = isLiked,
 )
 
 internal fun Quote.toEntity() = QuoteEntity(
     id = id,
     quote = quote,
     author = author,
+    isLiked = isLiked,
 )

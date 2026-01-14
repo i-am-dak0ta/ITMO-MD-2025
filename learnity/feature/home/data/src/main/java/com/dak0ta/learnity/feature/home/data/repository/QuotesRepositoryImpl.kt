@@ -29,6 +29,14 @@ internal class QuotesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun updateLikeQuote(quoteId: Int, isLiked: Boolean) {
+        val quotes = local.getQuotes()
+        val updated = quotes.map {
+            if (it.id == quoteId) it.copy(isLiked = isLiked) else it
+        }
+        local.upsertQuotes(updated)
+    }
+
     override fun observeQuotesCache(): Flow<List<Quote>> {
         return local.observeQuotes().distinctUntilChanged()
     }
@@ -36,10 +44,21 @@ internal class QuotesRepositoryImpl @Inject constructor(
     private suspend fun fetchAndCacheQuotes(): List<Quote> {
         return when (val result = remote.getQuotes()) {
             is ApiResult.Success -> {
-                val quotes = result.data
-                local.upsertQuotes(quotes)
+                val remoteQuotes = result.data
+                val localQuotes = local.getQuotes().associateBy { it.id }
+
+                val merged = remoteQuotes.map { remote ->
+                    val local = localQuotes[remote.id]
+                    if (local != null) {
+                        remote.copy(isLiked = local.isLiked)
+                    } else {
+                        remote.copy(isLiked = false)
+                    }
+                }
+
+                local.upsertQuotes(merged)
                 cacheManager.updateCacheTimestamp(CACHE_KEY_QUOTE_LIST)
-                quotes
+                merged
             }
 
             is ApiResult.Failure -> {

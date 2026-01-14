@@ -7,4 +7,5 @@ internal fun QuoteDto.toDomain() = Quote(
     id = id,
     quote = quote,
     author = author,
+    isLiked = false,
 )

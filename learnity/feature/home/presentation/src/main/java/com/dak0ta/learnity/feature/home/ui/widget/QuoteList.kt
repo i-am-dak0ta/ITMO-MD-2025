@@ -13,8 +13,9 @@ import androidx.compose.ui.unit.dp
 import com.dak0ta.learnity.feature.home.presentation.ui.HomeUiState
 
 @Composable
-internal fun UserList(
+internal fun QuoteList(
     state: HomeUiState.Content,
+    onLikeClick: (Int, Boolean) -> Unit,
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -29,8 +30,9 @@ internal fun UserList(
                 .padding(horizontal = 16.dp),
         ) {
             items(state.quotes, key = { it.id }) { user ->
-                UserCard(
-                    user = user,
+                QuoteCard(
+                    quote = user,
+                    onLikeClick = onLikeClick,
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(Modifier.height(16.dp))

@@ -44,10 +44,22 @@ internal class UserRepositoryImpl @Inject constructor(
     private suspend fun fetchAndCacheUser(id: Int): User {
         return when (val result = remote.getUserById(id)) {
             is ApiResult.Success -> {
-                val user = result.data
-                local.upsertUser(user)
+                val remoteUser = result.data
+                val localUser = local.getUser(id)
+
+                val merged = if (localUser != null && localUser.isLocallyEdited) {
+                    remoteUser.copy(
+                        firstName = localUser.firstName,
+                        lastName = localUser.lastName,
+                        isLocallyEdited = true,
+                    )
+                } else {
+                    remoteUser.copy(isLocallyEdited = false)
+                }
+
+                local.upsertUser(merged)
                 cacheManager.updateCacheTimestamp(CACHE_KEY_USER_ME)
-                user
+                merged
             }
 
             is ApiResult.Failure -> {

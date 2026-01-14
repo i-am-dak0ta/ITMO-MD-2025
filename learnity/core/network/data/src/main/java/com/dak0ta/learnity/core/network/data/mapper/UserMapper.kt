@@ -11,4 +11,5 @@ internal fun UserDto.toDomain() = User(
     lastName = lastName,
     gender = gender,
     image = image,
+    isLocallyEdited = false,
 )

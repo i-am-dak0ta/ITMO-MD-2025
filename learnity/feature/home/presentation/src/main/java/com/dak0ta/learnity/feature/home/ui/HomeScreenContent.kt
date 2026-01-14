@@ -4,11 +4,12 @@ import androidx.compose.runtime.Composable
 import com.dak0ta.learnity.core.design.ErrorScreen
 import com.dak0ta.learnity.core.design.LoadingScreen
 import com.dak0ta.learnity.feature.home.presentation.ui.HomeUiState
-import com.dak0ta.learnity.feature.home.ui.widget.UserList
+import com.dak0ta.learnity.feature.home.ui.widget.QuoteList
 
 @Composable
 internal fun HomeScreenContent(
     state: HomeUiState,
+    onLikeClick: (Int, Boolean) -> Unit,
     onRefresh: () -> Unit,
     onRetryClick: () -> Unit,
 ) {
@@ -18,7 +19,11 @@ internal fun HomeScreenContent(
         }
 
         is HomeUiState.Content -> {
-            UserList(state, onRefresh)
+            QuoteList(
+                state = state,
+                onLikeClick = onLikeClick,
+                onRefresh = onRefresh,
+            )
         }
 
         is HomeUiState.Error -> {

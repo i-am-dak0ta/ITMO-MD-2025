@@ -8,4 +8,5 @@ data class QuoteEntity(
     @PrimaryKey val id: Int,
     val quote: String,
     val author: String,
+    val isLiked: Boolean,
 )

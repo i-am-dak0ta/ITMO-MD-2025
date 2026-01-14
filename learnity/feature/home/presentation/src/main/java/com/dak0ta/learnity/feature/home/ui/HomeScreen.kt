@@ -29,6 +29,7 @@ internal fun HomeScreen() {
 
     HomeScreenContent(
         state = state,
+        onLikeClick = viewModel::onLikeClick,
         onRefresh = viewModel::onRefresh,
         onRetryClick = viewModel::onRetryClick,
     )

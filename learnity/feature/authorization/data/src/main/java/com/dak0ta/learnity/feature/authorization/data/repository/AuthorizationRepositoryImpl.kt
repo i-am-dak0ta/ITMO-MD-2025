@@ -22,10 +22,22 @@ internal class AuthorizationRepositoryImpl @Inject constructor(
     override suspend fun login(username: String, password: String): Unit = withContext(dispatchers.io) {
         when (val result = remote.login(username, password)) {
             is ApiResult.Success -> {
-                val user = result.data
-                local.upsertUser(user)
+                val remoteUser = result.data
+                val localUser = local.getUser(remoteUser.id)
+
+                val merged = if (localUser != null && localUser.isLocallyEdited) {
+                    remoteUser.copy(
+                        firstName = localUser.firstName,
+                        lastName = localUser.lastName,
+                        isLocallyEdited = true,
+                    )
+                } else {
+                    remoteUser.copy(isLocallyEdited = false)
+                }
+
+                local.upsertUser(merged)
                 cacheManager.updateCacheTimestamp(CACHE_KEY_USER_ME)
-                updateUserIdUseCase(user.id)
+                updateUserIdUseCase(merged.id)
             }
 
             is ApiResult.Failure -> {
