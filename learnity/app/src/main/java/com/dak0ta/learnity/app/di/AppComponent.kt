@@ -2,6 +2,7 @@ package com.dak0ta.learnity.app.di
 
 import android.app.Application
 import androidx.lifecycle.ViewModelProvider
+import com.dak0ta.learnity.app.worker.QuotesWorkerFactory
 import com.dak0ta.learnity.core.coroutine.di.CoroutineModule
 import com.dak0ta.learnity.core.database.data.di.DatabaseModule
 import com.dak0ta.learnity.core.datastore.data.di.DataStoreModule
@@ -24,6 +25,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AppModule::class,
+        WorkerModule::class,
         CoroutineModule::class,
         DatabaseModule::class,
         DataStoreModule::class,
@@ -40,6 +42,7 @@ import javax.inject.Singleton
 )
 interface AppComponent {
 
+    fun quotesWorkerFactory(): QuotesWorkerFactory
     fun viewModelFactory(): ViewModelProvider.Factory
     fun observeAppThemeUseCase(): ObserveAppThemeUseCase
     fun getAppThemeUseCase(): GetAppThemeUseCase

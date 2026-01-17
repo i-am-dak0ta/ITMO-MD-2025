@@ -1,10 +1,14 @@
 package com.dak0ta.learnity.app
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -23,6 +28,7 @@ import com.dak0ta.learnity.app.navigation.BottomNavBar
 import com.dak0ta.learnity.app.navigation.NavHost
 import com.dak0ta.learnity.app.navigation.bottomNavItems
 import com.dak0ta.learnity.app.ui.theme.LearnityTheme
+import com.dak0ta.learnity.app.worker.QuotesWorkerScheduler
 import com.dak0ta.learnity.core.datastore.domain.usecase.theme.GetAppThemeUseCase
 import com.dak0ta.learnity.core.datastore.domain.usecase.theme.ObserveAppThemeUseCase
 import com.dak0ta.learnity.core.domain.AppTheme
@@ -33,6 +39,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "Activity created")
+
+        requestNotificationPermissionIfNeeded()
+        QuotesWorkerScheduler.schedule(this)
 
         lifecycle.addObserver(
             object : DefaultLifecycleObserver {
@@ -99,6 +108,29 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    private fun requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestNotificationPermission.launch(
+                    Manifest.permission.POST_NOTIFICATIONS,
+                )
+            }
+        }
+    }
+
+    private val requestNotificationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) {
+                Log.d(TAG, "Notification permission granted")
+            } else {
+                Log.d(TAG, "Notification permission denied")
+            }
+        }
 
     private companion object {
 

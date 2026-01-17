@@ -125,6 +125,6 @@ internal class ProfileEditViewModel @Inject constructor(
 
     private companion object {
 
-        const val TAG = "Learnity:ProfileViewModel"
+        const val TAG = "Learnity:ProfileEditViewModel"
     }
 }

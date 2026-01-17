@@ -13,6 +13,7 @@ jetbrainsKotlinJvm = "2.2.20"
 # AndroidX
 activityCompose = "1.12.2"
 lifecycleViewmodelAndroid = "2.10.0"
+workManager = "2.11.0"
 
 # Kotlinx
 kotlinx-coroutines = "1.10.2"
@@ -62,6 +63,7 @@ androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilNetworkOkhttp" }
 

@@ -1,5 +1,10 @@
 plugins {
-    id("jvm-convention")
+    id("android-library-convention")
+    id("kotlin-kapt")
+}
+
+android {
+    namespace = "com.dak0ta.learnity.feature.home.data"
 }
 
 dependencies {
@@ -10,4 +15,8 @@ dependencies {
     implementation(projects.core.datastore.domain)
     implementation(projects.core.di)
     implementation(projects.core.network.domain)
+
+    implementation(libs.androidx.work.runtime.ktx)
+
+    kapt(libs.dagger.compiler)
 }
