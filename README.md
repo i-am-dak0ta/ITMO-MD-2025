@@ -9,7 +9,9 @@
 
 ## Результат
 
+[App.webm](https://github.com/user-attachments/assets/b63fe1af-2e54-4193-bf4f-023ab984844d)
 
+<img width="296" height="628" alt="Notification" src="https://github.com/user-attachments/assets/718d0013-05be-475b-9aa3-06a1c6b6c76c" />
 
 ## Технологический стек
 
